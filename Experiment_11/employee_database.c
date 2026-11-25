@@ -1,0 +1,4 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Employee{int id;char name[50],designation[30];float salary;};
+int main(void){int c,id,found;struct Employee e;FILE *f,*t;for(;;){printf("1.Add 2.Display 3.Search 4.Delete 5.Exit\n");if(scanf("%d",&c)!=1||c==5)return 0;if(c==1){if(scanf("%d%49s%29s%f",&e.id,e.name,e.designation,&e.salary)!=4)return 1;f=fopen("employees.dat","ab");if(f){fwrite(&e,sizeof e,1,f);fclose(f);}continue;}if(c<2||c>4)continue;if(c!=2&&scanf("%d",&id)!=1)return 1;f=fopen("employees.dat","rb");if(!f){puts("No database");continue;}t=c==4?fopen("temp.dat","wb"):NULL;if(c==4&&!t){fclose(f);continue;}found=0;while(fread(&e,sizeof e,1,f)==1){if(c==2||(c==3&&e.id==id))printf("%d %s %s %.2f\n",e.id,e.name,e.designation,e.salary);if(c!=2&&e.id==id)found=1;if(t&&e.id!=id)fwrite(&e,sizeof e,1,t);}fclose(f);if(t){fclose(t);if(found){remove("employees.dat");rename("temp.dat","employees.dat");}else remove("temp.dat");}if(c!=2&&!found)puts("Not found");}}
